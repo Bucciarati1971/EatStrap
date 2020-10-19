@@ -1,0 +1,176 @@
+<?php
+require_once("dbConnect.php");
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../_css/bootstrap.min.css">
+    <link rel="stylesheet" href="../_css/Full Course Dinner.css">
+    <link rel="stylesheet" href="../_css/UEO.css">
+    <link href="https://fonts.googleapis.com/css2?family=Metal+Mania&display=swap" rel="stylesheet">
+
+
+    <script src="../_js/jquery.min.js"></script>
+    <script src="../_js/popper.min.js"></script>
+    <script src="../_js/bootstrap.min.js"></script>
+
+    <title>Document</title>
+    <style></style>
+</head>
+
+<body>
+
+    <nav class="navbar  bg-light  justify-content-between fixed-top">
+        <a class="navbar-brand" href="#">
+            <h2 style="font-family: 'Metal Mania', cursive;">
+                <img src="../img/RNZTXHK4OQS11555957772004.png" width="40" height="40" class="d-inline-block align-top "
+                    alt="">
+                EatStrap
+            </h2>
+        </a>
+        <button type="submit" class="btn btn-primary my-2 my-sm-0" data-toggle="modal" data-target="#exampleModal">
+            登入
+        </button>
+
+    </nav>
+
+
+
+
+    <!-- Modal -->
+    <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">會員登入</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <fieldset>
+
+                            <!-- Form Name -->
+                            <legend></legend>
+
+                            <!-- Password input-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="myAccount"></label>
+                                <input id="myAccount" name="myAccount" type="password" placeholder="用戶名或電子郵件"
+                                    class="form-control input-md">
+
+                            </div>
+
+                            <!-- Text input-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="myPassword"></label>
+                                <input id="myPassword" name="myPassword" type="text" placeholder="密碼"
+                                    class="form-control input-md">
+
+                            </div>
+
+                            <!-- Multiple Checkboxes -->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="stayLogin"></label>
+                                <div class="col">
+                                    <input type="checkbox" name="stayLogin" id="stayLogin-0" value="slog">
+                                    保持登入
+                                    <button id="myLog" name="myLog" class="btn btn-primary">登入</button>
+                                    <button id=" registered" name=" registered" class="btn btn-warning">註冊</button>
+
+
+                                </div>
+                            </div>
+
+
+                        </fieldset>
+                    </form>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+    <div class="demo-description">
+        <h1 class="demo-description__title">Full Course Dinner</h1>
+        <p class="demo-description__p">Resize the browser to see the <picture> effect.</p>
+    </div>
+
+    <div class="demo coursemeal">
+
+        <!-- APPETIZERS-->
+        <div class="coursemeal__div ">
+
+            <picture class="responsive-img">
+                <source media="(min-width: 990px)" srcset="https://i.postimg.cc/jSTZmp8H/appetizer-img-1.jpg">
+                <source media="(min-width: 765px)" srcset="https://i.postimg.cc/1RTdCYhB/appetizer-img-2.jpg">
+                <source srcset="https://i.postimg.cc/TwnctQr7/appetizer-img-3.jpg">
+                <img src="https://i.postimg.cc/jSTZmp8H/appetizer-img-1.jpg" alt="Appetizer">
+            </picture>
+
+            <div class="coursemeal-info">
+                <a href="#" class="coursemeal-info__link">Appetizer</a>
+            </div>
+        </div>
+
+        <!-- MAIN COURSE-->
+        <div class="coursemeal__div">
+
+            <picture class="responsive-img">
+                <source media="(min-width: 990px)" srcset="https://i.postimg.cc/V6NCCRK0/maindish-img-1.jpg">
+                <source media="(min-width: 765px)" srcset="https://i.postimg.cc/9XYj186s/maindish-img-2.jpg">
+                <source srcset="https://i.postimg.cc/pLY8dt4q/maindish-img-3.jpg">
+                <img src="https://i.postimg.cc/V6NCCRK0/maindish-img-1.jpg" alt="Main Course">
+            </picture>
+
+            <div class="coursemeal-info">
+                <a href="http://127.0.0.1:5500/%E5%B0%8F%E5%B0%88/test.html" class="coursemeal-info__link">Main
+                    Course</a>
+            </div>
+        </div>
+
+        <!-- DESSERTS-->
+        <div class="coursemeal__div">
+
+            <picture class="responsive-img">
+                <source media="(min-width: 990px)" srcset="https://i.postimg.cc/9FfLh6ZZ/dessert-img-1.jpg">
+                <source media="(min-width: 765px)" srcset="https://i.postimg.cc/FsRXBnKn/dessert-img-2.jpg">
+                <source srcset="https://i.postimg.cc/ZKcFCVFZ/dessert-img-3.jpg">
+                <img src="https://i.postimg.cc/ZKcFCVFZ/dessert-img-1.jpg" alt="Desserts">
+            </picture>
+
+            <div class="coursemeal-info">
+                <a href="#" class="coursemeal-info__link">Dessert</a>
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+
+
+</body>
+
+</html>
+<!-- <div id="myuser" class="dropdown bg-warning row ">
+            <a id="myuser" class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <img src="img/pngtree-menu-vector-icon-png-image_3791388-removebg-preview (1).png" alt="">
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="#">jmeter</a></li>
+                <li><a href="#">Jasper Report</a></li>
+                <li class="divider"> </li>
+                <li><a href="#">會員登入</a></li>
+            </ul>
+        </div> -->

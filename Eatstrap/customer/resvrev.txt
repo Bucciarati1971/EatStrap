@@ -1,0 +1,558 @@
+<?php
+require_once("dbConnect.php");
+
+if (isset($_POST["registered"])) {
+	header ( "Location: userRegistered.php" );
+	exit ();
+}
+
+ session_start();
+ 
+//   if (isset($_SESSION["loginMember"])&&($_SESSION["loginMember"] != "")) {
+//       if ($_SESSION["memberLevel"] == "member") {
+//           header("Location: portal.php");
+//       } else {
+//           header("Location: home.php");
+//       }
+//   }
+
+ if (isset($_POST["myLog"])) {
+    $query_RecLogin = mysqli_query($link,"select * from e_user where E_Name = 
+    '{$_POST["myAccount"]}' and  E_password = '{$_POST["myPassword"]}'");
+    $A = mysqli_fetch_assoc($query_RecLogin); //提出物件中的陣列
+    $sess = $A["E_Name"];    //顯示名字
+
+
+
+     // //執行登入
+    //  if (isset($_POST["myAccount"]) && isset($_POST["myPassword"])) {
+         // $query_RecLogin="SELECT * FROM E_user WHERE E_Name ='{$_POST["myAccount"]}'and
+         //  E_password = '{$_POST["myPassword"]}' ";
+//          $query_RecLogin="SELECT E_Name, E_password, E_level FROM e_user WHERE E_Name =?";
+//          $stmt=$db_link->prepare($query_RecLogin);
+//          $stmt->bind_param("s", $_POST["myAccount"]);
+//          $stmt->execute();
+//          $stmt->bind_result($usernmae, $password, $level);
+//          $stmt->fetch();
+//          $stmt->close();
+
+//          //  $result=mysqli_query($link,$query_RecLogin);
+//          //  $row = mysqli_fetch_assoc($result);
+//          if(password_verify($_POST["myPassword"],$password)){
+//          $query_RecLoginUpdat="UPDATE memberdata SET E_login = E_login+1, E_logintime=NOW() WHERE E_username?";
+//          $stmt=$db_link->prepare($query_RecLoginUpdate);
+//          $stmt->bind_param("s", $usernmae);
+//          $stmt->execute();
+//          $stmt->close();
+        
+//          $_SESSION["loginMember"]=$username;
+//          $_SESSION["memberLevel"]=$level;
+        
+//          //記住登入
+//          if (isset($_POST["stayLogin"]) && ($_POST["stayLogin"] == "true")) {
+//              setcookie("remUser", $_POST["myAccount"], time()+365*24*60);
+//              setcookie("remPass", $_POST["myPassword"], time()+365*24*60);
+//          } else {
+//              if (isset($_COOKIE["remUser"])) {
+//                  setcookie("remUser", $_POST["myAccount"], time()-100);
+//                  setcookie("remPass", $_POST["myPassword"], time()-100);
+//              }
+//          }
+
+
+//          if ($_SESSION["memberLevel"]=="member") {
+//              header("Location:portal.php");
+//          } 
+         
+//        }  else {
+//              header("Location:portal.php");
+//          }
+       
+//      }
+//  }
+ ?>
+
+
+
+
+ //////////////////////////////////pag1
+
+
+
+<?php
+require_once("dbConnect.php");
+
+
+ session_start();
+ 
+  if (isset($_SESSION["loginMember"])&&($_SESSION["loginMember"] != "")) {
+      if ($_SESSION["memberLevel"] == "member") {
+          header("Location: portal.php");
+      } else {
+          header("Location: home.php");
+      }
+      exit();
+  }
+
+ if (isset($_POST["myLog"])) {
+     // //執行登入
+     if (isset($_POST["myAccount"]) && isset($_POST["myPassword"])) {
+         // $query_RecLogin="SELECT * FROM E_user WHERE E_Name ='{$_POST["myAccount"]}'and
+         //  E_password = '{$_POST["myPassword"]}' ";
+         $query_RecLogin="SELECT E_Name, E_password, E_level FROM e_user WHERE
+         E_Name ='{$_POST["myAccount"]}' and E_password='{$_POST["myPassword"]}'";
+         $stmt=$link->prepare($query_RecLogin);
+         $stmt->bind_param("s", $_POST["myAccount"]);
+         $stmt->execute();
+         $stmt->bind_result($myAccount, $myPassword, $level);
+         $stmt->fetch();
+         $stmt->close();
+
+         //  $result=mysqli_query($link,$query_RecLogin);
+         //  $row = mysqli_fetch_assoc($result);
+         $query_RecLoginUpdat="UPDATE memberdata SET E_login=E_login+1,E_loggintime=NOW() WHERE E_username?";
+         $stmt=$link->prepare($query_RecLoginUpdate);
+         $stmt->bind_param("s", $usernmae);
+         $stmt->execute();
+         $stmt->close();
+
+        
+         $_SESSION["loginMember"]=$username;
+         $_SESSION["memberLevel"]=$level;
+         //記住登入
+         if (isset($_POST["stayLogin"]) && ($_POST["stayLogin"] == "true")) {
+             setcookie("remUser", $_POST["myAccount"], time()+365*24*60);
+             setcookie("remPass", $_POST["myPassword"], time()+365*24*60);
+         } else {
+             if (isset($_COOKIE["remUser"])) {
+                 setcookie("remUser", $_POST["myAccount"], time()-100);
+                 setcookie("remPass", $_POST["myPassword"], time()-100);
+             }
+         }
+
+
+         if ($_SESSION["memberLevel"]=="member") {
+             header("Location:home2.php");
+         } else {
+             header("Location:home.php");
+         }
+     }
+ }
+ ?>
+
+
+
+        <!-- Modal -->
+    <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">會員登入</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form class="form-horizontal" method="post" action="" >
+                        <fieldset>
+
+                            <!-- Form Name -->
+                            <legend></legend>
+
+                            <!-- Password input-->
+                            <div class="form-group" action="">
+                                <label class="col-md-4 control-label" for="myAccount"></label>
+                                <input id="myAccount" name="myAccount" value="<?php if (isset($_COOKIE["remUser"])
+                                 && ($_COOKIE["remUser"]!="")) {
+     echo $_COOKIE["remUser"];
+ }?>" type="text" placeholder="用戶名或電子郵件"
+                                    class="form-control input-md">
+
+                            </div>
+
+                            <!-- Text input-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="myPassword"></label>
+                                <input id="myPassword" name="myPassword" type="password" placeholder="密碼"
+                                    class="form-control input-md"value="<?php if (isset($_COOKIE["remPass"])
+                                 && ($_COOKIE["remPass"]!="")) {
+     echo $_COOKIE["remPass"];
+ }?>">
+
+                            </div>
+
+                            <!-- Multiple Checkboxes -->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="stayLogin"></label>
+                                <div class="col">
+                                    <input type="checkbox" name="stayLogin" id="stayLogin" value="true">
+                                    保持登入
+                                    <button id="myLog" type="submit" name="myLog" class="btn btn-primary">登入</button>
+                                    <button id=" registered" name=" registered" class="btn btn-warning" href="userRegistered.php">註冊</button>
+
+
+                                </div>
+                            </div>
+
+
+                        </fieldset>
+                    </form>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+    //////////////////////////////////////
+
+
+
+        <!-- Modal -->
+    <!-- <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">會員登入</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form class="form-horizontal" method="post" action="" >
+                        <fieldset>
+ -->
+                            <!-- Form Name -->
+                            <!-- <legend></legend> -->
+
+                            <!-- Password input-->
+                            <!-- <div class="form-group" action="">
+                                <label class="col-md-4 control-label" for="myAccount"></label>
+                                <input id="myAccount" name="myAccount" value="<?php if (isset($_COOKIE["remUser"])
+                                 && ($_COOKIE["remUser"]!="")) {echo $_COOKIE["remUser"];}?>" type="text" placeholder="用戶名或電子郵件"
+                                    class="form-control input-md">
+
+                            </div>
+ -->
+                            <!-- Text input-->
+                            <!-- <div class="form-group">
+                                <label class="col-md-4 control-label" for="myPassword"></label>
+                                <input id="myPassword" name="myPassword" type="password" placeholder="密碼"
+                                    class="form-control input-md"value="<?php if (isset($_COOKIE["remPass"])
+                                 && ($_COOKIE["remPass"]!="")) {echo $_COOKIE["remPass"];}?>">
+
+                            </div> -->
+
+                            <!-- Multiple Checkboxes -->
+                            <!-- <div class="form-group">
+                                <label class="col-md-4 control-label" for="stayLogin"></label>
+                                <div class="col">
+                                    <input type="checkbox" name="stayLogin" id="stayLogin" value="true">
+                                    保持登入
+                                    <button id="myLog" type="submit" name="myLog" class="btn btn-primary">登入</button>
+                                    <button id=" registered" name=" registered" class="btn btn-warning">註冊</button>
+
+
+                                </div>
+                            </div>
+
+
+                        </fieldset>
+                    </form>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div> -->
+
+
+    
+<?php
+require_once("dbConnect.php");
+
+$result = mysqli_query($link, "select E_ID,E_Name,E_paswword,E_level");
+
+
+session_start();
+
+if (isset($_SESSION["loginMember"])&&($_SESSION["loginMember"] != "")) {
+    if ($_SESSION["memberLevel"] == "member") {
+        header("Location: portal.php");
+    } else {
+        header("Location: home.php");
+    }
+}
+
+if (isset($_POST["logOut"])) {
+	setcookie ( "E_Name", "E_password", time () - 3600 );
+	header ( "Location: home.php" );
+	exit ();
+}
+
+
+
+// if (isset($_POST["myLog"])) {
+//     // //執行登入
+//     if (isset($_POST["myAccount"]) && isset($_POST["myPassword"])) {
+//         $query_RecLogin="SELECT E_Name, E_password, E_level FROM E_user WHERE
+//         E_Name ='{$_POST["myAccount"]}' and E_password='{$_POST["myPassword"]}'";
+//         $stmt=$link->prepare($query_RecLogin);
+//         $stmt->bind_param("s", $_POST["myAccount"]);
+//         $stmt->execute();
+//         $stmt->bind_result($myAccount, $myPassword, $level);
+//         $stmt->fetch();
+//         $stmt->close();
+
+
+       
+//         $_SESSION["loginMember"]=$username;
+//         $_SESSION["memberLevel"]=$level;
+//         //記住登入
+//         if (isset($_POST["stayLogin"]) && ($_POST["stayLogin"] == "true")) {
+//             setcookie("remUser", $_POST["myAccount"], time()+365*24*60);
+//             setcookie("remPass", $_POST["myPassword"], time()+365*24*60);
+//         } else {
+//             if (isset($_COOKIE["remUser"])) {
+//                 setcookie("remUser", $_POST["myAccount"], time()-100);
+//                 setcookie("remPass", $_POST["myPassword"], time()-100);
+//             }
+//         }
+
+
+//         if ($_SESSION["memberLevel"]=="member") {
+//             header("Location: portal.php");
+//         } else {
+//             header("Location: userRegistered.php");
+//         }
+//     }
+// }
+?>
+
+
+/////////////////////////////
+
+
+<?php
+require("dbConnect.php");
+
+if (isset($_POST["cancelButton"])) {
+    header("Location:userRegistered.php");
+   exit();
+}
+
+
+session_start();
+
+ if (isset($_SESSION["loginMember"])&&($_SESSION["loginMember"] != "")) {
+     if ($_SESSION["memberLevel"] == "member") {
+         header("Location: portal.php");
+     } else {
+         header("Location:userRegistered.php");
+     }
+     exit();
+ }
+
+
+?>
+
+
+/////////////////////////////////////////
+
+
+<?php
+require("dbConnect.php");
+
+if (isset($_POST["cancelButton"])) {
+    header("Location:userRegistered.php");
+   exit();
+}
+
+
+session_start();
+
+ if (isset($_SESSION["loginMember"])&&($_SESSION["loginMember"] != "")) {
+     if ($_SESSION["memberLevel"] == "member") {
+         header("Location: portal.php");
+     } else {
+         header("Location:userRegistered.php");
+     }
+     exit();
+ }
+
+
+?>
+
+
+// echo  $_SESSION["loginMember"]; echo "<hr>";
+// echo  $_SESSION["loginMember"]; echo "<hr>";
+
+ if (isset($_SESSION["loginMember"])&&($_SESSION["loginMember"] != "")) {
+     if ($_SESSION["memberLevel"] == "member") {
+         header("Location: Registered.php");
+     } else {
+         header("Location:userRegistered.php");
+     }
+     exit();
+ }
+
+
+
+ 
+if (isset($_POST["myLog"])) {
+    // //執行登入
+    if (isset($_POST["myAccount"]) && isset($_POST["myPassword"])) {
+        // $query_RecLogin="SELECT * FROM E_user WHERE E_Name ='{$_POST["myAccount"]}'and
+        //  E_password = '{$_POST["myPassword"]}' ";
+        $query_RecLogin="SELECT E_Name, E_password, E_level FROM e_user WHERE E_Name =?";
+        $stmt=$db_link->prepare($query_RecLogin);
+        $stmt->bind_param("s", $_POST["myAccount"]);
+        $stmt->execute();
+        $stmt->bind_result($usernmae, $password, $level);
+        $stmt->fetch();
+        $stmt->close();
+
+        //  $result=mysqli_query($link,$query_RecLogin);
+        //  $row = mysqli_fetch_assoc($result);
+        if(password_verify($_POST["myPassword"],$password)){
+        $query_RecLoginUpdat="UPDATE memberdata SET E_login = E_login+1, E_logintime=NOW() WHERE E_username?";
+        $stmt=$db_link->prepare($query_RecLoginUpdate);
+        $stmt->bind_param("s", $usernmae);
+        $stmt->execute();
+        $stmt->close();
+       
+        $_SESSION["loginMember"]=$username;
+        $_SESSION["memberLevel"]=$level;
+       
+        //記住登入
+        if (isset($_POST["stayLogin"]) && ($_POST["stayLogin"] == "true")) {
+            setcookie("remUser", $_POST["myAccount"], time()+365*24*60);
+            setcookie("remPass", $_POST["myPassword"], time()+365*24*60);
+        } else {
+            if (isset($_COOKIE["remUser"])) {
+                setcookie("remUser", $_POST["myAccount"], time()-100);
+                setcookie("remPass", $_POST["myPassword"], time()-100);
+            }
+        }
+
+
+        if ($_SESSION["memberLevel"]=="member") {
+            header("Location:portal.php");
+        } 
+        
+      }  else {
+            header("Location:portal.php");
+        }
+      
+    }
+}
+
+
+// if (isset($_POST["button1id"])) {
+//     $sql=<<<sqlCommamd
+//         update e_user set
+//          E_Name="{$_POST["E_Name"]}",
+//          E_password="{$_POST["E_password"]}",
+//          Email="{$_POST["Email"]}",
+//         where Employee={$_POST["Employee"]}
+//      sqlCommamd;
+//     mysqli_query($link, $sql);
+//      header("Location:index.php");
+//     exit();
+// }
+
+// $id = $_GET["empid"];
+//  $sql = "select * from e_user where E_ID = $id";
+// $result = mysqli_query($link, $sql);
+// $row = mysqli_fetch_assoc($result);
+
+
+
+
+
+?>
+
+
+
+
+
+
+
+
+////////////////////////////////////////////
+
+
+
+
+
+    <div id="hmbg" class=" custom-gutters ">
+    <div class="container">
+        <div id="mysearch" class="bg-warning" style="height: 100%; text-align:center;">
+          <form class="form-horizontal">
+            <fieldset>
+
+                <!-- Form Name -->
+                <legend>修改資料</legend>
+
+                <!-- Text input-->
+                <div class="form-group">
+                   <label class="col-md-4 control-label" for="E_Name"></label>  
+                    <div class="col-md-5">
+                      <input id="E_Name" name="E_Name" type="text" placeholder="用戶名" class="form-control input-md" required="">
+                    
+                    </div>
+                </div>
+
+            <!-- Password input-->
+            <div class="form-group">
+                   <label class="col-md-4 control-label" for="E_password"></label>
+              <div class="col-md-5">
+
+                <input id="E_password" name="E_password" type="password" placeholder="密碼" class="form-control input-md">
+                
+              </div>
+            </div>
+
+            <!-- Password input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="passCheck"></label>
+              <div class="col-md-5">
+                <input id="passCheck" name="passCheck" type="password" placeholder="確認密碼" class="form-control input-md">
+                
+              </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+               <label class="col-md-4 control-label" for="E_mail"></label>  
+               <div class="col-md-5">
+                <input id="E_mail" name="E_mail" type="text" placeholder="電子郵件" class="form-control input-md">
+                
+               </div>
+            </div>
+
+            <!-- Button (Double) -->
+            <div class="form-group">
+                 <label class="col-md-4 control-label" for="okButton"></label>
+               <div class="col-md-8">
+                  <button id="okButton" name="okButton" class="btn btn-primary">註冊</button>
+                  <button id="cancelButton" name="cancelButton" class="btn btn-danger">取消</button>
+               </div>
+            </div>
+
+           </fieldset>
+         </form>
+
+
+      </div>
+      </div>
+
+ </div>
